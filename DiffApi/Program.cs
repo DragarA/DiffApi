@@ -1,3 +1,4 @@
+using System.Reflection;
 using DiffApi.Repositories;
 using DiffApi.Services;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddScoped<IDiffDataService, DiffDataService>();
 builder.Services.AddScoped<ICompareService, CompareService>();
@@ -28,11 +33,8 @@ using (var scope = app.Services.CreateScope())
     salesContext.Database.EnsureCreated();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

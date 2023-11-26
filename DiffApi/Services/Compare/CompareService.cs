@@ -7,6 +7,12 @@ namespace DiffApi.Services
 {
     public class CompareService : ICompareService
     {
+        /// <summary>
+        /// Executes the comparison of the base64 decoded strings
+        /// </summary>
+        /// <param name="diffData">Db entity containing the identifier and 2 data values</param>
+        /// <returns>Comparison result alongside with comparison details</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public DiffResponseModel Compare(DiffData diffData)
         {
             if (diffData == null || !diffData.IsValid())

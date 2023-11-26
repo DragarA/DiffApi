@@ -19,6 +19,12 @@ public class DiffController : ControllerBase
         this.compareService = compareService;
     }
 
+    /// <summary>
+    /// Adds the left data value for binary comparison.
+    /// </summary>
+    /// <param name="model">Data</param>
+    /// <param name="id">Identifier</param>
+    /// <returns>201 - Created</returns>
     [HttpPut("{id}/left")]
     public async Task<IActionResult> PutLeft(DiffRequestModel model, [FromRoute] int id)
     {
@@ -26,6 +32,12 @@ public class DiffController : ControllerBase
         return StatusCode(StatusCodes.Status201Created);
     }
 
+    /// <summary>
+    /// Adds the right data value for binary comparison.
+    /// </summary>
+    /// <param name="model">Data</param>
+    /// <param name="id">Identifier</param>
+    /// <returns>201 - Created</returns>
     [HttpPut("{id}/right")]
     public async Task<IActionResult> PutRight(DiffRequestModel model, [FromRoute] int id)
     {
@@ -34,6 +46,11 @@ public class DiffController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Executes the data comparison between left and right values
+    /// </summary>
+    /// <param name="id">Identifier</param>
+    /// <returns>Comparison result alongside with comparison details</returns>
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] int id)
     {
