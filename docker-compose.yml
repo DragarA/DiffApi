@@ -1,0 +1,30 @@
+﻿version: '3.4'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: diffApiDb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: diffApiDb
+      POSTGRES_USER: testDbUser
+      POSTGRES_PASSWORD: testDbPassword
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d diffApiDb -U testDbUser" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  diffapi:
+    image: ${DOCKER_REGISTRY-}diffapi
+    build:
+      context: .
+      dockerfile: DiffApi/Dockerfile
+    depends_on:
+      postgres: 
+        condition: service_healthy
+    links: 
+      - postgres
+    ports: 
+      - "80:80"
